@@ -15,8 +15,15 @@ body {
     margin-left: 1rem;
     margin-right: 1rem;
 }
+.nav img{
+    width:100px;
+    height: 100px;
+    margin-right: 1rem;
+    padding: 0;
+    border-radius: 30%;
+}
 .navbar {
-    height: 6rem;
+    height: 5.4rem;
     background: black;
     color: #fff;
     padding: 1rem 0;
@@ -31,9 +38,11 @@ body {
     align-items: center;
 }
 .logoo img{
-    width:120px;
+     width:90px;
+    height: 85px;
     margin-right: 1rem;
     padding: 0;
+    border-radius: 15%;
 }
 
 .navbar .logo {
@@ -232,7 +241,7 @@ section.about {
 }
 
 .value-item {
-    background: linear-gradient(145deg, #f0f4f8, #ffffff);
+    background: linear-gradient(135deg, #3c6bb2, #00c6ff);
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1), -4px -4px 12px rgba(255, 255, 255, 0.7);
@@ -241,7 +250,7 @@ section.about {
 }
 
 .value-item:hover {
-    transform: translateY(-10px) scale(1.05);
+    transform: scale(1.009);
     box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.15), -6px -6px 20px rgba(255, 255, 255, 0.9);
 }
 
@@ -263,10 +272,113 @@ section.about {
 }
 
 .value-item p {
-    color: #555;
+    color: white;
     font-size: 1rem;
     line-height: 1.6;
+    text-align: left;
 }
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* Card Design */
+.card {
+    background: linear-gradient(135deg, #3c6bb2, #00c6ff);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    margin: 5px;
+    max-width: 800px;
+    width: 100%;
+}
+.c{
+    height: 20rem;
+    width: 20rem;
+}   
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card h2 {
+    font-size: 1.8rem;
+    color:rgb(189, 233, 175);
+    margin-bottom: 10px;
+}
+.vis-mis{
+    margin: 2rem 0 0 22rem;
+    width: 100%;
+}
+.mis{
+    width:65rem;
+    margin: 2rem 0 0 15rem;
+    width: 65rem;
+    background: linear-gradient(135deg, #3c6bb2, #00c6ff);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    color: white;
+}
+.mis h2{
+    color:rgb(189, 233, 175);
+    font-size: 1.8rem;
+    margin-left: 20px;
+}
+.mis p{
+    line-height: 1.6;
+
+}
+.mis:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+.vmv{
+    font-size: 1.8rem;
+    color: #0d47a1;
+    margin:2rem 0 2rem 10rem;
+}
+.val{
+    font-size: 1.8rem;
+    color: #0d47a1;
+    margin: 3rem 0 2rem 42rem;
+}
+.card p,
+.card ul {
+    font-size: 1rem;
+    color: white;
+    line-height: 1.6;
+}
+
+.card ul {
+    text-align: left;
+    padding-left: 20px;
+}
+
+/* Values Grid */
+.values-grid {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 1rem ;
+    background: #e6f7ff;
+    height: 27rem;
+}
+
+.values-grid .card {
+    max-width: 100%;
+}
+
+
+
+
+
 
 .team {
     width: 30%;
@@ -333,13 +445,15 @@ footer p {
 
 }
 .exp{
-   background:#f0f4f8 ; 
+   background: linear-gradient(135deg, #3c6bb2, #00c6ff); 
    border-radius: 20px;
    padding: 1rem;
    transition: transform 0.3s ease, box-shadow 0.3s ease;
 
 }
-
+.exp p{
+    color: white;
+}
 .exp:hover{
     transform: translateY(-10px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
