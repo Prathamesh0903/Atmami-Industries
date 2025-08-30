@@ -11,36 +11,39 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2rem;
-    height: 2rem;
-    height: 1.2rem;
+    height: 7rem;
+    padding-left: 1rem;
+    padding-right: 2rem;
 }
 
 /* Navbar Styles */
 .navbar {
     background: black;
     color: #fff;
-    padding: 1rem 0;
+    padding: 1px 0px;
     position: sticky;
     top: 0;
     z-index: 1000;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .logoo{
-    justify-content: left;
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    
 }
 .logoo img{
-    width:90px;
-    height: 85px;
+    width:130px;
+    height: 105px;
     margin-right: 1rem;
     padding: 0;
     border-radius: 15%;
+
 }
 
 .navbar .logo {
-    font-size: 1.8rem;
+    font-size: 1.3rem;
     font-weight: bold;
 }
 

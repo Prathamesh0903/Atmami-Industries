@@ -33,20 +33,22 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .logoo{
-    justify-content: left;
     display: flex;
+    justify-content: space-between;
     align-items: center;
+    
 }
 .logoo img{
-     width:90px;
-    height: 85px;
+    width:130px;
+    height: 105px;
     margin-right: 1rem;
     padding: 0;
     border-radius: 15%;
+
 }
 
 .navbar .logo {
-    font-size: 1.8rem;
+    font-size: 1.3rem;
     font-weight: bold;
 }
 

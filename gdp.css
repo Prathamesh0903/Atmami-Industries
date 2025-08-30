@@ -86,8 +86,32 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 5rem;
+    padding-left: 1rem;
+    padding-right: 2rem;
+}
+
+.logoo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+.logoo img{
+    width:130px;
+    height: 105px;
+    margin-right: 1rem;
+    padding: 0;
+    border-radius: 15%;
+
+}
+
 .navbar .logo {
-    font-size: 1.8rem;
+    font-size: 1.3rem;
     font-weight: bold;
 }
 
