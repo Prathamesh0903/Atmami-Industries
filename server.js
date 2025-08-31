@@ -48,9 +48,6 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Serve static files
-app.use(express.static(path.join(__dirname)));
-
 // URL Encryption/Decryption functions
 const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || 'your-32-character-secret-key-here!!';
 const ALGORITHM = 'aes-256-cbc';
@@ -147,9 +144,61 @@ app.get('/api/routes', (req, res) => {
     });
 });
 
+// Serve route encryption script through encrypted route
+app.get('/route-encryption.js', (req, res) => {
+    res.sendFile(path.join(__dirname, 'route-encryption.js'));
+});
+
 // Handle 404 for API routes
 app.use('/api/*', (req, res) => {
     res.status(404).json({ error: 'API endpoint not found' });
+});
+
+// Serve static files (images, CSS, JS) but not HTML files
+app.use(express.static(path.join(__dirname), {
+    setHeaders: (res, path) => {
+        // Block direct access to HTML files
+        if (path.endsWith('.html')) {
+            res.status(403).send('Direct access to HTML files is not allowed. Use encrypted routes.');
+        }
+    }
+}));
+
+// Redirect direct HTML file access to encrypted routes
+app.get('*.html', (req, res) => {
+    const requestedFile = req.path;
+    
+    // Map HTML files to their corresponding routes
+    const htmlToRouteMap = {
+        '/index.html': '/',
+        '/about.html': '/about',
+        '/sustainability.html': '/sustainability',
+        '/enquiry.html': '/enquiry',
+        '/gdp.html': '/gdp',
+        '/Ims.html': '/ims'
+    };
+    
+    const route = htmlToRouteMap[requestedFile];
+    if (route) {
+        // Find the encrypted version of this route
+        for (const [key, encryptedRoute] of Object.entries(encryptedRoutes)) {
+            const routeMap = {
+                'home': '/',
+                'about': '/about',
+                'sustainability': '/sustainability',
+                'enquiry': '/enquiry',
+                'gdp': '/gdp',
+                'ims': '/ims'
+            };
+            
+            if (routeMap[key] === route) {
+                return res.redirect('/' + encryptedRoute);
+            }
+        }
+    }
+    
+    // If no mapping found, redirect to home
+    res.redirect('/');
 });
 
 // Handle 404 for all other routes

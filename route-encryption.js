@@ -33,8 +33,22 @@ class RouteEncryption {
                 return;
             }
             
+            // Handle HTML file links by converting them to routes
+            let cleanHref = href;
+            if (href.endsWith('.html')) {
+                const htmlToRouteMap = {
+                    'index.html': '/',
+                    'about.html': '/about',
+                    'sustainability.html': '/sustainability',
+                    'enquiry.html': '/enquiry',
+                    'gdp.html': '/gdp',
+                    'Ims.html': '/ims'
+                };
+                cleanHref = htmlToRouteMap[href] || href;
+            }
+            
             // Remove leading slash for comparison
-            const cleanHref = href.startsWith('/') ? href : '/' + href;
+            cleanHref = cleanHref.startsWith('/') ? cleanHref : '/' + cleanHref;
             
             // Find matching encrypted route
             for (const [key, encryptedRoute] of Object.entries(this.encryptedRoutes)) {
