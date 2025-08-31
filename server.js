@@ -1,0 +1,178 @@
+const express = require('express');
+const path = require('path');
+const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const crypto = require('crypto');
+require('dotenv').config({ path: './config.env' });
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Security middleware
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://cdnjs.cloudflare.com"],
+            fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "https://pagead2.googlesyndication.com"],
+            imgSrc: ["'self'", "data:", "https:"],
+            connectSrc: ["'self'"],
+            frameSrc: ["'self'"],
+            objectSrc: ["'none'"],
+            upgradeInsecureRequests: [],
+        },
+    },
+}));
+
+// Rate limiting
+const limiter = rateLimit({
+    windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 minutes
+    max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS) || 100, // limit each IP to 100 requests per windowMs
+    message: 'Too many requests from this IP, please try again later.',
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+app.use(limiter);
+
+// CORS configuration
+app.use(cors({
+    origin: process.env.NODE_ENV === 'production' 
+        ? ['https://atmamii.com', 'https://www.atmamii.com'] 
+        : ['http://localhost:3000', 'http://localhost:5000'],
+    credentials: true
+}));
+
+// Body parsing middleware
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Serve static files
+app.use(express.static(path.join(__dirname)));
+
+// URL Encryption/Decryption functions
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || 'your-32-character-secret-key-here!!';
+const ALGORITHM = 'aes-256-cbc';
+
+function encryptRoute(route) {
+    const iv = crypto.randomBytes(16);
+    const key = crypto.scryptSync(ENCRYPTION_KEY, 'salt', 32);
+    const cipher = crypto.createCipheriv(ALGORITHM, key, iv);
+    let encrypted = cipher.update(route, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    return iv.toString('hex') + ':' + encrypted;
+}
+
+function decryptRoute(encryptedRoute) {
+    try {
+        const parts = encryptedRoute.split(':');
+        const iv = Buffer.from(parts[0], 'hex');
+        const encrypted = parts[1];
+        const key = crypto.scryptSync(ENCRYPTION_KEY, 'salt', 32);
+        const decipher = crypto.createDecipheriv(ALGORITHM, key, iv);
+        let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+        decrypted += decipher.final('utf8');
+        return decrypted;
+    } catch (error) {
+        return null;
+    }
+}
+
+// Route mapping for encryption
+const routeMap = {
+    'home': '/',
+    'about': '/about',
+    'sustainability': '/sustainability',
+    'enquiry': '/enquiry',
+    'gdp': '/gdp',
+    'ims': '/ims'
+};
+
+// Generate encrypted routes
+const encryptedRoutes = {};
+Object.keys(routeMap).forEach(key => {
+    encryptedRoutes[key] = encryptRoute(routeMap[key]);
+});
+
+// Middleware to handle encrypted routes
+app.use((req, res, next) => {
+    const path = req.path.substring(1); // Remove leading slash
+    
+    // Check if this is an encrypted route
+    for (const [key, encryptedRoute] of Object.entries(encryptedRoutes)) {
+        if (path === encryptedRoute) {
+            const decryptedRoute = decryptRoute(encryptedRoute);
+            if (decryptedRoute) {
+                req.originalPath = req.path;
+                req.path = decryptedRoute;
+                break;
+            }
+        }
+    }
+    
+    next();
+});
+
+// Public routes - Serve HTML pages with encrypted URLs
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.get('/about', (req, res) => {
+    res.sendFile(path.join(__dirname, 'about.html'));
+});
+
+app.get('/sustainability', (req, res) => {
+    res.sendFile(path.join(__dirname, 'sustainability.html'));
+});
+
+app.get('/enquiry', (req, res) => {
+    res.sendFile(path.join(__dirname, 'enquiry.html'));
+});
+
+app.get('/gdp', (req, res) => {
+    res.sendFile(path.join(__dirname, 'gdp.html'));
+});
+
+app.get('/ims', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Ims.html'));
+});
+
+// API endpoint to get encrypted routes (for frontend use)
+app.get('/api/routes', (req, res) => {
+    res.json({
+        routes: encryptedRoutes,
+        message: 'Encrypted routes generated successfully'
+    });
+});
+
+// Handle 404 for API routes
+app.use('/api/*', (req, res) => {
+    res.status(404).json({ error: 'API endpoint not found' });
+});
+
+// Handle 404 for all other routes
+app.use('*', (req, res) => {
+    res.status(404).sendFile(path.join(__dirname, '404.html'));
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Something went wrong!' });
+});
+
+// Start server
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`📱 Environment: ${process.env.NODE_ENV}`);
+    console.log(`🔐 Encryption Key: ${ENCRYPTION_KEY ? 'Configured' : 'Using default'}`);
+    console.log(`🌐 Access the application at: http://localhost:${PORT}`);
+    console.log(`🔒 Encrypted Routes:`);
+    Object.keys(encryptedRoutes).forEach(key => {
+        console.log(`   ${key}: /${encryptedRoutes[key]}`);
+    });
+});
+
+module.exports = app;
