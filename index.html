@@ -181,9 +181,38 @@
         </div>
     </section>
 
+    <!-- Ad Container 1: After Process Section -->
+    <div class="ad-container" style="display: none;">
+        <div class="ad-label">Advertisement</div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-9261168041352438"
+             data-ad-slot="YOUR_AD_SLOT_1"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
     <section id="cards" class="cards">
-        <div  class="container">
-    <h2 id="services"  style="margin-left: 40rem ; color: #0d47a1;">Explore our services</h2>
+        <div class="container">
+            <h2 id="services" style="margin-left: 40rem ; color: #0d47a1;">Explore our services</h2>
+            
+            <!-- Subtle Sidebar Ad -->
+            <div class="ad-container-sidebar" style="position: fixed; top: 50%; right: 20px; transform: translateY(-50%); z-index: 100; display: none;">
+                <div class="ad-label">Sponsored</div>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-9261168041352438"
+                     data-ad-slot="YOUR_AD_SLOT_3"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+            
             <div class="card-links">
                 <div class="card">
                     <img src="integrated.jpg" alt="Integrated Management System - Quality and process optimization" width="400" height="200" loading="lazy">
@@ -197,6 +226,22 @@
                     <div class="card-content">
                         <h3>Product Development</h3>
                         <a href="#">Learn More</a>
+                    </div>
+                </div>
+                
+                <!-- Integrated Ad Card (Alternative to standalone ads) -->
+                <div class="card ad-card" style="display: none;">
+                    <div class="ad-container-inset" style="margin: 0; padding: 10px; background: transparent; border: none; box-shadow: none;">
+                        <div class="ad-label" style="font-size: 10px; margin-bottom: 5px;">Sponsored Content</div>
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-9261168041352438"
+                             data-ad-slot="YOUR_AD_SLOT_4"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                             (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
                     </div>
                 </div>
                 <div class="card">
@@ -246,6 +291,21 @@
             </div>
         </div>
     </section>
+
+    <!-- Ad Container 2: Before Footer -->
+    <div class="ad-container" style="display: none;">
+        <div class="ad-label">Advertisement</div>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-9261168041352438"
+             data-ad-slot="YOUR_AD_SLOT_2"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
     <footer class="footer">
         <div class="container footer-container">
             <div class="footer-logo">
@@ -258,6 +318,7 @@
                     <li><a href="#services">Services</a></li>
                     <li><a href="#sustainability">Sustainability</a></li>
                     <li><a href="enquiry.html">Enquiry</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
                 </ul>
             </div>
             <div class="footer-social">
@@ -272,8 +333,7 @@
         </div>
     </footer>
 
-    <!-- Route Encryption Script -->
-    <script src="route-encryption.js"></script>
+
     
     <script>
         // Mobile Menu Toggle
@@ -343,6 +403,17 @@
                 navbar.style.backdropFilter = 'none';
             }
         });
+
+        // Ad Display Control - Uncomment to show ads
+        // function showAds() {
+        //     const ads = document.querySelectorAll('.ad-container');
+        //     ads.forEach(ad => {
+        //         ad.style.display = 'block';
+        //     });
+        // }
+        
+        // Show ads after 3 seconds (optional)
+        // setTimeout(showAds, 3000);
     </script>
 </body>
 </html>
