@@ -580,6 +580,62 @@ h6 {
         width: 40px;
         height: 40px;
     }
+    
+    /* Additional mobile optimizations */
+    .container {
+        padding: 0 0.5rem;
+    }
+    
+    .nav {
+        padding: 0 0.5rem;
+    }
+    
+    .footer-container {
+        padding: 0 0.5rem;
+    }
+    
+    /* Improve touch targets */
+    .nav-link {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+    
+    .cta-button {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Extra Small Mobile Responsive */
+@media (max-width: 360px) {
+    .hero h2 {
+        font-size: 1.6rem;
+    }
+    
+    .hero p {
+        font-size: 0.85rem;
+    }
+    
+    .process-item {
+        max-width: 280px;
+        padding: 0.6rem;
+    }
+    
+    .card-content h3 {
+        font-size: 1rem;
+    }
+    
+    .navbar .logo {
+        font-size: 0.9rem;
+    }
+    
+    .logoo img {
+        width: 35px;
+        height: 35px;
+    }
 }
 
 /* Hamburger Animation */

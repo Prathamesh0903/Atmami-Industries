@@ -1,0 +1,21 @@
+{
+  "name": "ATMAMI Industries & Consulting",
+  "short_name": "ATMAMI",
+  "description": "Professional business consultancy services including Quality Management Systems, GDP, GMP, NABL Certification, and Industrial Automation solutions.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0d47a1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "atmami.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity", "education"],
+  "lang": "en",
+  "dir": "ltr"
+}
