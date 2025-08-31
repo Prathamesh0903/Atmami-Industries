@@ -16,26 +16,37 @@
                 <a href="index.html"><img src="atmami.svg" alt="ATMAMI Logo"></a>
                 <h1 class="logo">ATMAMI Industries & Consulting</h1>
             </div>
-            <nav>
+            <nav class="nav-menu" role="navigation" aria-label="Main navigation">
                 <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="#process">Process</a></li>
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="about.html" class="nav-link">About us</a></li>
                     <li class="dropdown">
-                        <a href="#explore-services">Services</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="Ims.html"><i class="fas fa-cogs"></i>Quality Management System</a></li>
-                            <li><a href="gdp.html"><i class="fas fa-truck"></i>Goods Distribution Practices</a></li>
-                            <li><a href=""><i class="fas fa-industry"></i>Goods Manufacturing Practices</a></li>
-                            <li><a href="#nabl"><i class="fas fa-certificate"></i>NABL Certification</a></li>
-                            <li><a href="#ndt"><i class="fas fa-search"></i>Non-Destructive Testing</a></li>
-                            <li><a href="#trainings"><i class="fas fa-users"></i>People Development</a></li>
-                            <li><a href="#automation"><i class="fas fa-robot"></i>Industrial Automation</a></li>
-                            <li><a href="#ml"><i class="fas fa-lightbulb"></i>Product Development</a></li>
+                        <a href="#explore-services" class="nav-link dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                            Services
+                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="Ims.html" role="menuitem"><i class="fas fa-cogs" aria-hidden="true"></i>Quality Management System</a></li>
+                            <li><a href="gdp.html" role="menuitem"><i class="fas fa-truck" aria-hidden="true"></i>Goods Distribution Practices</a></li>
+                            <li><a href="" role="menuitem"><i class="fas fa-industry" aria-hidden="true"></i>Goods Manufacturing Practices</a></li>
+                            <li><a href="#nabl" role="menuitem"><i class="fas fa-certificate" aria-hidden="true"></i>NABL Certification</a></li>
+                            <li><a href="#ndt" role="menuitem"><i class="fas fa-search" aria-hidden="true"></i>Non-Destructive Testing</a></li>
+                            <li><a href="#trainings" role="menuitem"><i class="fas fa-users" aria-hidden="true"></i>People Development</a></li>
+                            <li><a href="#automation" role="menuitem"><i class="fas fa-robot" aria-hidden="true"></i>Industrial Automation</a></li>
+                            <li><a href="#ml" role="menuitem"><i class="fas fa-lightbulb" aria-hidden="true"></i>Product Development</a></li>
                         </ul>
                     </li>
-                    <li><a href="gdp2.pdf" target="_blank" class="view-document"><i class="fas fa-file-pdf"></i>View Document</a></li>
+                    <li><a href="sustainability.html" class="nav-link">Sustainability</a></li>
+                    <li><a href="enquiry.html" class="nav-link">Enquiry</a></li>
+                    <li><a href="gdp2.pdf" target="_blank" class="nav-link view-document"><i class="fas fa-file-pdf"></i>View Document</a></li>
                 </ul>
             </nav>
+
+            <div class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+                <span class="bar" aria-hidden="true"></span>
+                <span class="bar" aria-hidden="true"></span>
+                <span class="bar" aria-hidden="true"></span>
+            </div>
         </div>
     </header>
 
@@ -336,5 +347,49 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Dropdown functionality for mobile
+        const dropdowns = document.querySelectorAll('.dropdown');
+        dropdowns.forEach(dropdown => {
+            const dropdownToggle = dropdown.querySelector('.dropdown-toggle');
+            const dropdownMenu = dropdown.querySelector('.dropdown-menu');
+            
+            dropdownToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                dropdown.classList.toggle('active');
+                
+                // Close other dropdowns
+                dropdowns.forEach(otherDropdown => {
+                    if (otherDropdown !== dropdown) {
+                        otherDropdown.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }));
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>

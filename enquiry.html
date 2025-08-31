@@ -17,27 +17,36 @@
                 <a href="index.html"><img src="atmami.svg" alt="Atmami Logo"></a>
                 <h1 class="logo">ATMAMI Industries & Consulting</h1>
             </div>
-            <nav>
+            <nav class="nav-menu" role="navigation" aria-label="Main navigation">
                 <ul class="nav-links">
-                    <li><a href="about.html">About us</a></li>
+                    <li><a href="about.html" class="nav-link">About us</a></li>
                     <li class="dropdown">
-                        <a href="#explore-services">Services</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="Ims.html">Integrated Management System</a></li>
-                            <li><a href="gdp.html">Goods Distribution Practices</a></li>
-                            <li><a href="#gms">Goods Manufacturing Practices</a></li>
-                            <li><a href="#nabl">NABL Certification</a></li>
-                            <li><a href="#ndt">Non-Destructive Testing</a></li>
-                            <li><a href="#trainings">People Development</a></li>
-                            <li><a href="#automation">Industrial Automation</a></li>
-                            <li><a href="#ml">Product Development</a></li>
+                        <a href="#explore-services" class="nav-link dropdown-toggle" aria-haspopup="true" aria-expanded="false">
+                            Services
+                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="Ims.html" role="menuitem"><i class="fas fa-cogs" aria-hidden="true"></i>Integrated Management System</a></li>
+                            <li><a href="gdp.html" role="menuitem"><i class="fas fa-truck" aria-hidden="true"></i>Goods Distribution Practices</a></li>
+                            <li><a href="#gms" role="menuitem"><i class="fas fa-industry" aria-hidden="true"></i>Goods Manufacturing Practices</a></li>
+                            <li><a href="#nabl" role="menuitem"><i class="fas fa-certificate" aria-hidden="true"></i>NABL Certification</a></li>
+                            <li><a href="#ndt" role="menuitem"><i class="fas fa-search" aria-hidden="true"></i>Non-Destructive Testing</a></li>
+                            <li><a href="#trainings" role="menuitem"><i class="fas fa-users" aria-hidden="true"></i>People Development</a></li>
+                            <li><a href="#automation" role="menuitem"><i class="fas fa-robot" aria-hidden="true"></i>Industrial Automation</a></li>
+                            <li><a href="#ml" role="menuitem"><i class="fas fa-lightbulb" aria-hidden="true"></i>Product Development</a></li>
                         </ul>
                     </li>
-                    <li><a href="sustainability.html">Sustainability</a></li>
-                    <li><a href="enquiry.html">Enquiry</a></li>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sustainability.html" class="nav-link">Sustainability</a></li>
+                    <li><a href="enquiry.html" class="nav-link">Enquiry</a></li>
+                    <li><a href="index.html" class="nav-link">Home</a></li>
                 </ul>
             </nav>
+
+            <div class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-menu">
+                <span class="bar" aria-hidden="true"></span>
+                <span class="bar" aria-hidden="true"></span>
+                <span class="bar" aria-hidden="true"></span>
+            </div>
         </div>
     </header>
 
@@ -87,16 +96,7 @@
                             </div>
                         </div>
                         
-                        <div class="contact-method">
-                            <div class="method-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
-                            <div class="method-content">
-                                <h3>Visit Us</h3>
-                                <p>Mumbai, Maharashtra, India</p>
-                                <span>Schedule a meeting at your convenience</span>
-                            </div>
-                        </div>
+
                     </div>
 
                     <div class="trust-indicators">
@@ -397,6 +397,48 @@
                     }
                 });
             });
+        });
+
+        // Mobile Menu Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Dropdown functionality for mobile
+        const dropdowns = document.querySelectorAll('.dropdown');
+        dropdowns.forEach(dropdown => {
+            const dropdownToggle = dropdown.querySelector('.dropdown-toggle');
+            const dropdownMenu = dropdown.querySelector('.dropdown-menu');
+            
+            dropdownToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                dropdown.classList.toggle('active');
+                
+                // Close other dropdowns
+                dropdowns.forEach(otherDropdown => {
+                    if (otherDropdown !== dropdown) {
+                        otherDropdown.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('active');
+        }));
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
         });
     </script>
 </body>
