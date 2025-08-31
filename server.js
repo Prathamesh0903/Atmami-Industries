@@ -92,25 +92,6 @@ Object.keys(routeMap).forEach(key => {
     encryptedRoutes[key] = encryptRoute(routeMap[key]);
 });
 
-// Middleware to handle encrypted routes
-app.use((req, res, next) => {
-    const path = req.path.substring(1); // Remove leading slash
-    
-    // Check if this is an encrypted route
-    for (const [key, encryptedRoute] of Object.entries(encryptedRoutes)) {
-        if (path === encryptedRoute) {
-            const decryptedRoute = decryptRoute(encryptedRoute);
-            if (decryptedRoute) {
-                req.originalPath = req.path;
-                req.path = decryptedRoute;
-                break;
-            }
-        }
-    }
-    
-    next();
-});
-
 // Public routes - Serve HTML pages with encrypted URLs
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
@@ -136,6 +117,28 @@ app.get('/ims', (req, res) => {
     res.sendFile(path.join(__dirname, 'Ims.html'));
 });
 
+// Handle encrypted routes
+Object.entries(encryptedRoutes).forEach(([key, encryptedRoute]) => {
+    app.get('/' + encryptedRoute, (req, res) => {
+        const routeMap = {
+            'home': '/',
+            'about': '/about',
+            'sustainability': '/sustainability',
+            'enquiry': '/enquiry',
+            'gdp': '/gdp',
+            'ims': '/ims'
+        };
+        
+        const targetRoute = routeMap[key];
+        if (targetRoute) {
+            console.log(`🔐 Serving encrypted route: /${encryptedRoute} → ${targetRoute}`);
+            res.sendFile(path.join(__dirname, targetRoute === '/' ? 'index.html' : targetRoute.substring(1) + '.html'));
+        } else {
+            res.status(404).json({ error: 'Route not found' });
+        }
+    });
+});
+
 // API endpoint to get encrypted routes (for frontend use)
 app.get('/api/routes', (req, res) => {
     res.json({
@@ -154,17 +157,7 @@ app.use('/api/*', (req, res) => {
     res.status(404).json({ error: 'API endpoint not found' });
 });
 
-// Serve static files (images, CSS, JS) but not HTML files
-app.use(express.static(path.join(__dirname), {
-    setHeaders: (res, path) => {
-        // Block direct access to HTML files
-        if (path.endsWith('.html')) {
-            res.status(403).send('Direct access to HTML files is not allowed. Use encrypted routes.');
-        }
-    }
-}));
-
-// Redirect direct HTML file access to encrypted routes
+// Block direct HTML file access and redirect to encrypted routes
 app.get('*.html', (req, res) => {
     const requestedFile = req.path;
     
@@ -192,18 +185,34 @@ app.get('*.html', (req, res) => {
             };
             
             if (routeMap[key] === route) {
+                console.log(`🔄 Redirecting ${requestedFile} → /${encryptedRoute}`);
                 return res.redirect('/' + encryptedRoute);
             }
         }
     }
     
     // If no mapping found, redirect to home
+    console.log(`🔄 Redirecting ${requestedFile} → /`);
     res.redirect('/');
 });
 
+// Serve static files (images, CSS, JS) but not HTML files
+app.use(express.static(path.join(__dirname), {
+    setHeaders: (res, path) => {
+        // Block direct access to HTML files
+        if (path.endsWith('.html')) {
+            res.status(403).send('Direct access to HTML files is not allowed. Use encrypted routes.');
+        }
+    }
+}));
+
 // Handle 404 for all other routes
 app.use('*', (req, res) => {
-    res.status(404).sendFile(path.join(__dirname, '404.html'));
+    res.status(404).json({ 
+        error: 'Page not found',
+        message: 'The requested page does not exist. Please use the navigation menu to access available pages.',
+        availableRoutes: Object.keys(encryptedRoutes)
+    });
 });
 
 // Error handling middleware
